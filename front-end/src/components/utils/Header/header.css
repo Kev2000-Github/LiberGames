@@ -1,0 +1,45 @@
+.header{
+    margin: 0px;
+}
+
+.navigator{
+    background-color: rgba(16, 60, 87, 1);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    margin: 0px;
+    font-family: "Nunito Sans", sans-serif;
+    width: 100%;
+    height: 100%;
+}
+
+.left-side{
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.center-side{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.list{
+    margin-top: 0px;
+}
+
+.list li{
+    display: inline;
+    margin-top: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+ 
+.right-side{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    margin-right: 20px;
+}
