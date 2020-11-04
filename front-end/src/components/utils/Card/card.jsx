@@ -1,8 +1,10 @@
 import React from 'react';
+import './card.css'
 
 const Card=()=>{
     return(
-        <div>
+        <div className="card">
+            <img className="image" src="" alt=""/>
         </div>
     )
 }
