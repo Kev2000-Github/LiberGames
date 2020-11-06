@@ -1,0 +1,10 @@
+.numeration{
+    display: flex;
+    margin: 5px;
+}
+
+.list{
+    display: inline;
+    margin-left: 3px;
+    margin-right: 3px;
+}
