@@ -1,45 +1,93 @@
-.header{
-    margin: 0px;
+.header {
+  margin: 0px;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
-.navigator{
-    background-color: rgba(16, 60, 87, 1);
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    margin: 0px;
-    font-family: "Nunito Sans", sans-serif;
-    width: 100%;
-    height: 100%;
+.navigator {
+  background-color: rgba(16, 60, 87, 0.8);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  margin: 0px;
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  text-decoration: none;
 }
 
-.left-side{
-    display: flex;
-    justify-content: flex-start;
-    margin-top: 10px;
-    margin-left: 20px;
+.navigator a {
+  position: relative;
+  transition: 150ms;
+  transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.center-side{
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+.navigator a::after {
+  content: "";
+  width: 110%;
+  height: 5px;
+  position: absolute;
+  top: 140%;
+  left: 0;
+  transform-origin: 0 0;
+  transform: scaleY(0);
+  transition: 150ms;
+  transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+  background: #ff1b1b;
+}
+.navigator .center-side li:hover > a,
+.navigator .left-side:hover > a,
+.navigator .right-side:hover > p {
+  color: #ff1b1b;
+}
+.navigator .center-side li:hover > a::after,
+.navigator .left-side:hover > a::after {
+  transform: scaleY(1);
 }
 
-.list{
-    margin-top: 0px;
+.left-side {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 20px;
+  cursor: pointer;
 }
 
-.list li{
-    display: inline;
-    margin-top: 0px;
-    margin-left: 10px;
-    margin-right: 10px;
+.center-side {
+  height: 100%;
+  width: 600px;
+  cursor: pointer;
 }
- 
-.right-side{
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-    margin-right: 20px;
+
+.center-side .list {
+  display: grid;
+  margin: 0;
+  height: 100%;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 1fr;
+  justify-items: center;
+}
+
+.center-side .list li {
+  display: flex;
+  align-items: center;
+}
+
+.list li {
+  list-style-type: none;
+}
+
+.right-side {
+  display: grid;
+  align-items: center;
+  align-self: center;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.lupa {
+  margin-top: 5px;
+  max-height: 25px;
 }

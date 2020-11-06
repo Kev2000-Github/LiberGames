@@ -1,0 +1,17 @@
+.selector {
+  outline: none;
+  background: #d3d3d3;
+  font-family: "Segoe UI";
+  height: 34px;
+  font-size: 18px;
+  color: rgba(66, 65, 65, 0.9);
+  cursor: pointer;
+}
+
+.normal {
+  width: 250px;
+}
+
+.small {
+  width: 90px;
+}
