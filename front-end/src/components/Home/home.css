@@ -1,0 +1,82 @@
+.titleBLock {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  position: absolute;
+  top: 20%;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  max-height: 100px;
+  max-width: 350px;
+  justify-content: space-around;
+  overflow: hidden;
+}
+
+.titleBLock::before {
+  content: "";
+  background: rgba(255, 0, 0, 0.5);
+  width: 30px;
+  height: 80px;
+  align-self: end;
+  z-index: 2;
+}
+
+.webName {
+  font-size: 50px;
+  color: white;
+  line-height: 0;
+  margin-right: 15px;
+}
+
+.header {
+  z-index: 5;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 0.5fr 1fr;
+  grid-template-columns: 1fr;
+  height: 100%;
+}
+
+.divC {
+  background: rgba(240, 240, 240, 1);
+}
+
+.container .backgroundWall {
+  width: 100%;
+}
+
+.wallpaper {
+  position: relative;
+  height: fit-content;
+  overflow: hidden;
+}
+
+.wallpaper::after {
+  position: absolute;
+  content: "";
+  width: 120%;
+  height: 400px;
+  background: linear-gradient(
+    2deg,
+    rgba(240, 240, 240, 1) 85%,
+    rgba(255, 255, 255, 0.8356384790244222) 92%,
+    rgba(240, 240, 240, 1) 100%
+  );
+  transform: rotate(-5deg);
+  top: 60%;
+  left: -5%;
+  z-index: 0;
+}
+
+.subTitle {
+  position: absolute;
+  font-family: monospace;
+  font-size: 35px;
+  top: 62%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: black;
+  border-bottom: 4px solid #a50303;
+  z-index: 1;
+}

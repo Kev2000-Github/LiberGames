@@ -15,6 +15,13 @@ module.exports={
     module:{
         rules:[
             {
+                test: /\.(png|jpg|svg)/,
+                use: {
+                    loader: 'url-loader',
+                    options: {limit: 90000}
+                }
+            },
+            {
                 test: /\.(js|jsx)$/,
                 use: 'babel-loader',
                 exclude: /node_modules/
@@ -26,7 +33,18 @@ module.exports={
             {
                 test: /\.html/,
                 use: 'html-loader',
-            }
+            },
+            {
+                test: /\.ttf$/,
+                use: [
+                  {
+                    loader: 'url-loader',
+                    options: {
+                      name: './font/[name].[ext]',
+                    },
+                  },
+                ]
+            },
         ]
     },
     plugins:[
