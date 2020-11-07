@@ -36,7 +36,7 @@
 }
 
 .cardLink:hover > .card .Image {
-  transform: scale(1.1) rotate(5deg);
+  transform: scale(1.1);
 }
 .cardLink:hover > .card .cardTitle {
   transform: scale(1.1);
@@ -69,7 +69,7 @@
   justify-items: center;
   color: azure;
   font-size: 14px;
-  top: 84%;
+  top: 83%;
   left: 0;
   transition: 300ms;
   transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);

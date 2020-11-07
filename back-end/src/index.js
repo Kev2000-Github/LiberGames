@@ -3,7 +3,7 @@ const app=express();
 const path=require('path');
 const morgan=require('morgan');
 const {mongoose}=require('./database');
-
+const cors=require('cors');
 //SETTINGS
 app.set('port',process.env.PORT || 3000);
 /* app.set('whiteList', ['http://localhost:8080/']);
@@ -18,8 +18,16 @@ app.set('corsOptions',{
  //MIDDLEWARES
 app.use(express.json());
 app.use(morgan('dev'));
-//app.use(cors(app.get('corsOptions')));
-
+app.use(cors());
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept'
+    );
+    next();
+  });
+  
 //ROUTES
 app.use('/json',require('./routes/gameroutes'));
 

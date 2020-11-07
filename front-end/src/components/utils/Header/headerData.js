@@ -1,0 +1,1 @@
+module.exports={platforms: ['PC','PS2','PS3','PS4','NDS','XBOX360']};

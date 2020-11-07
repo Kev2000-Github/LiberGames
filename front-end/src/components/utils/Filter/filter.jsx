@@ -7,7 +7,7 @@ const Filter=(props)=>{
     const options=props.options;
     return(
         <>
-        <select name={`selector-${theme}`} className={"selector " + size}>
+        <select onChange={props.onChange} id={`Selector-${theme}`} name={`Selector`} className={"selector " + size}>
                 <option defaultValue={theme}>{theme}</option>
                 {options.map((option,index)=>{
                     return (<option key={`${theme}-${index}${option}`} value={option}>{option}</option>)
