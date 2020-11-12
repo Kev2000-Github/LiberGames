@@ -6,26 +6,21 @@ import Filter from '../utils/Filter/filter.jsx';
 import './library.css';
 import filtersData from './filtersData';
 import PageNumeration from '../utils/PageNumeration/pageNumeration.jsx';
-import {pcBackground} from '../../assets/images/pcBackground.jpg';
 
 const Library=()=>{
     const [filtros,SetFiltros] = useState({});
-    const [games,setGames] = useState([])
-    const [currentPlatform,setCurrentPlatform]= useState(window.location.search);
+    const [games,setGames] = useState([]);
     const getGames=async ()=>{
         const platform=new URLSearchParams(window.location.search).get('platform');
-        const getURL=platform==null?`http://localhost:3000/json`:`http://localhost:3000/json/platforms/${platform}`
+        const baseURL=`http://localhost:3000/json`;
+        const endpoint=`/platforms/${platform}`;
+        const getURL=platform==null?baseURL:baseURL + endpoint;
         const response= await axios.get(getURL);
         setGames(response.data.games==null?[]:response.data.games);
     }
-    if(currentPlatform!=window.location.search){
+    useEffect(()=>{
         getGames();
-        setCurrentPlatform(window.location.search);
-    }
-
-    useEffect(async ()=>{
-        getGames();
-    },[]);
+    },[location.search])
 
     const handleFilters=(e)=>{
         const name=e.target.name;
@@ -38,7 +33,7 @@ const Library=()=>{
         }
         switch(name){
             case 'Alphabet':
-                if(filtros[name]!=undefined && filtros[name]==value) removeFilter(name);
+                if(filtros[name]!=undefined && filtros[name]==value) SetFiltros({...filtros,[name]:""});
                 else SetFiltros({...filtros,[name]:e.target.value});
                 break;
             case 'Selector':
@@ -47,7 +42,7 @@ const Library=()=>{
                 else SetFiltros({...filtros,[id]:value});
         }
     }
-
+ console.log(filtros)
     const handleApplyFilters=async (e)=>{
         const baseURL="http://localhost:3000/json/filtered";
         const params=new URL(window.location.href).searchParams;
@@ -59,9 +54,16 @@ const Library=()=>{
                 const element=key=='Selector-Genero'?'genre':'idioma';
                 query+=`${element}=${filtros[key]}&`;
             }
+            else if(key=="Alphabet" && filtros[key]!=""){
+                query+=`title=${filtros[key]}&`;
+            }
+            else if(key=="Selector-ASC"){
+                query+=`order=${filtros[key]}&`;
+            }
         });
         query=query.substring(0,query.length-1);
         query=baseURL+query;
+        console.log(query);
         const response=await axios.get(query);
         setGames(response.data.games==null?[]:response.data.games);
     }
@@ -75,7 +77,7 @@ const Library=()=>{
                             <div className="flex-item alphabet">
                                 <p>Filtros</p>
                                 <div>
-                                    {filtersData.alphabet.map(letter=>(<button name='Alphabet' value={letter} key={`ASCII-${letter}`} onClick={handleFilters}>{letter}</button>))}
+                                    {filtersData.alphabet.map(letter=>(<button className={filtros['Alphabet']==letter?"pressed":""} name='Alphabet' value={letter} key={`ASCII-${letter}`} onClick={handleFilters}>{letter}</button>))}
                                 </div>
                             </div>
                             <div className="flex-item filterForm">
@@ -83,7 +85,7 @@ const Library=()=>{
                                 <div className="language"><Filter onChange={handleFilters} theme={"Idioma"} options={filtersData['Idioma']} size={"normal"}/></div>
                                 <div className="apply"><button onClick={handleApplyFilters}>Aplicar Filtros</button></div>
                                 <p className="orderby">Ordenar por: </p>
-                                <div className="options"><Filter onChange={handleFilters} theme={"BuscarPor"} options={filtersData['BuscarPor']}  size={"small"}/></div>
+                                <div className="options"><Filter onChange={handleFilters} theme={"Fecha"} options={filtersData['BuscarPor']}  size={"small"}/></div>
                                 <div className="asc"><Filter onChange={handleFilters} theme={"ASC"} options={filtersData['Ordenamiento']}  size={"small"}/></div>
                             </div>
                         </div>

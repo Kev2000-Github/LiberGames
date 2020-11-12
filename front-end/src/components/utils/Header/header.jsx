@@ -37,7 +37,7 @@ const Header=()=>{
                             <div className="context-menu">
                                 <div className="context-menu-search">
                                     <form onSubmit={handleSubmit}>
-                                        <Link to={`/`} style={{textDecoration: 'none'}}>
+                                        <Link to={`/?title=${searchTerm}`} style={{textDecoration: 'none'}}>
                                             <button><img className="lupaSearcher" src={Lupa} alt="lupaSearcher"/></button>
                                         </Link>
                                         <input type="text" name="searcher" onChange={handleInput} value={searchTerm} id="searcher" autoComplete="off"/>

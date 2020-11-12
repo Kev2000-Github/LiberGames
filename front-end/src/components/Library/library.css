@@ -66,8 +66,15 @@
   cursor: pointer;
   transition: 300ms;
   transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+  outline: none;
 }
 .alphabet div button:hover {
+  background: crimson;
+  color: lightgoldenrodyellow;
+  border-radius: 8px;
+}
+
+.alphabet div .pressed {
   background: crimson;
   color: lightgoldenrodyellow;
   border-radius: 8px;

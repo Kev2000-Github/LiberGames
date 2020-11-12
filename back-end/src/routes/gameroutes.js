@@ -19,9 +19,9 @@ router.get('/',async (req, res)=>{
 })
 
 router.get('/search/:title',async (req,res)=>{
-    //const games=await Game.find({title: {$regex: req.params.title,$options: 'i'}});
+    const games=await Game.find({title: {$regex: req.params.title,$options: 'i'}});
     console.log(req.body);
-    res.json({status:'hey there'});
+    res.json({games});
 })
 
 router.post('/', async (req,res)=>{
@@ -92,12 +92,15 @@ router.get('/platforms/:platform', async (req,res)=>{
 router.get('/filtered/', async (req,res)=>{
     const params=req.query;
     let filters={};
+    let order=req.query.order? 1 : -1;
     const allFilters=Object.keys(req.query)
-    for(let i=0;i<allFilters.length;i++){
-        filters[allFilters[i]]={$in: [params[allFilters[i]]]}
-    }
+    allFilters.map(key=>{
+        if(key=="title") filters[key]={$regex: `^${params[key]}`, $options: 'i'};
+        else if(key!="order") filters[key]={$in: [params[key]]};
+
+    })
     console.log(filters) 
-    const games=await Game.find(filters);
+    const games=await Game.find(filters).sort({'entryDate':order});
     res.json({games});
 })
 
