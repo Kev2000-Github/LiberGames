@@ -6,6 +6,7 @@ import Filter from '../utils/Filter/filter.jsx';
 import './library.css';
 import filtersData from './filtersData';
 import PageNumeration from '../utils/PageNumeration/pageNumeration.jsx';
+import {pcBackground} from '../../assets/images/pcBackground.jpg';
 
 const Library=()=>{
     const [filtros,SetFiltros] = useState({});
@@ -15,8 +16,11 @@ const Library=()=>{
         const platform=new URLSearchParams(window.location.search).get('platform');
         const getURL=platform==null?`http://localhost:3000/json`:`http://localhost:3000/json/platforms/${platform}`
         const response= await axios.get(getURL);
-        console.log(response.data.games)
         setGames(response.data.games==null?[]:response.data.games);
+    }
+    if(currentPlatform!=window.location.search){
+        getGames();
+        setCurrentPlatform(window.location.search);
     }
 
     useEffect(async ()=>{
@@ -44,8 +48,22 @@ const Library=()=>{
         }
     }
 
-    const handleApplyFilters=(e)=>{
-        console.log(filtros);
+    const handleApplyFilters=async (e)=>{
+        const baseURL="http://localhost:3000/json/filtered";
+        const params=new URL(window.location.href).searchParams;
+        let query='?';
+        query+=`platforms=${params.get('platform')}&`;
+        Object.keys(filtros).map((key,index)=>{
+            const validFilter=/^(Selector-Genero|Selector-Idioma)/.test(key);
+            if(validFilter){
+                const element=key=='Selector-Genero'?'genre':'idioma';
+                query+=`${element}=${filtros[key]}&`;
+            }
+        });
+        query=query.substring(0,query.length-1);
+        query=baseURL+query;
+        const response=await axios.get(query);
+        setGames(response.data.games==null?[]:response.data.games);
     }
 
     return(
