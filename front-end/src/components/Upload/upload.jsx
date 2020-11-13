@@ -109,7 +109,6 @@ const Upload=()=>{
             axios.post('http://localhost:3000/json/upload',Form,config)
             .then(()=>{
                 console.log('The game has been sent!');
-                window.location.reload();
             }) 
         }
         else{

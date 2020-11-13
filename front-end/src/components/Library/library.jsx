@@ -8,19 +8,37 @@ import filtersData from './filtersData';
 import PageNumeration from '../utils/PageNumeration/pageNumeration.jsx';
 
 const Library=()=>{
-    const [filtros,SetFiltros] = useState({});
+    const [filtros,SetFiltros] = useState({"Selector-ASC":"ASC"});
     const [games,setGames] = useState([]);
-    const getGames=async ()=>{
-        const platform=new URLSearchParams(window.location.search).get('platform');
-        const baseURL=`http://localhost:3000/json`;
-        const endpoint=`/platforms/${platform}`;
-        const getURL=platform==null?baseURL:baseURL + endpoint;
-        const response= await axios.get(getURL);
-        setGames(response.data.games==null?[]:response.data.games);
-    }
+    const [pageCount,setPageCount] = useState(1);
+    const [pagination, setPagination] =useState({page:1});
+    const [currentPlatform, setCurrentPlatform] = useState("");
+    const [filterQuery,setFilterQuery] = useState("");
+    const [order, setOrder] = useState("");
+    
     useEffect(()=>{
-        getGames();
-    },[location.search])
+        const {search}=location;
+        const searchPlatform=new URLSearchParams(search).get('platform');
+        if(searchPlatform) setCurrentPlatform(searchPlatform);
+        getGames(location.search);
+    },[location.search, order])
+
+    const handleOrder=(e)=>{
+        const query=`&order=${e.target.value}`;
+        setOrder(query);
+    }
+
+    const getGames=async (addedQuery="")=>{
+        const baseURL=`http://localhost:3000/json`;
+        const endpoint=`/platforms`;
+        const getURL=baseURL + endpoint + addedQuery + "&limit=20" + filterQuery + order;
+        const response= await axios.get(getURL);
+        const {data}=response;
+        setGames(data.docs==null?[]:[...data.docs]);
+        setPageCount(data.totalPages);
+        delete data.docs;
+        setPagination({...data});
+    }
 
     const handleFilters=(e)=>{
         const name=e.target.name;
@@ -42,12 +60,9 @@ const Library=()=>{
                 else SetFiltros({...filtros,[id]:value});
         }
     }
- console.log(filtros)
+
     const handleApplyFilters=async (e)=>{
-        const baseURL="http://localhost:3000/json/filtered";
-        const params=new URL(window.location.href).searchParams;
-        let query='?';
-        query+=`platforms=${params.get('platform')}&`;
+        let query='&';
         Object.keys(filtros).map((key,index)=>{
             const validFilter=/^(Selector-Genero|Selector-Idioma)/.test(key);
             if(validFilter){
@@ -57,15 +72,10 @@ const Library=()=>{
             else if(key=="Alphabet" && filtros[key]!=""){
                 query+=`title=${filtros[key]}&`;
             }
-            else if(key=="Selector-ASC"){
-                query+=`order=${filtros[key]}&`;
-            }
         });
         query=query.substring(0,query.length-1);
-        query=baseURL+query;
-        console.log(query);
-        const response=await axios.get(query);
-        setGames(response.data.games==null?[]:response.data.games);
+        setFilterQuery(query);
+        getGames(location.search + query);
     }
 
     return(
@@ -86,7 +96,7 @@ const Library=()=>{
                                 <div className="apply"><button onClick={handleApplyFilters}>Aplicar Filtros</button></div>
                                 <p className="orderby">Ordenar por: </p>
                                 <div className="options"><Filter onChange={handleFilters} theme={"Fecha"} options={filtersData['BuscarPor']}  size={"small"}/></div>
-                                <div className="asc"><Filter onChange={handleFilters} theme={"ASC"} options={filtersData['Ordenamiento']}  size={"small"}/></div>
+                                <div className="asc"><Filter onChange={handleOrder} theme={"ASC"} options={filtersData['Ordenamiento']}  size={"small"}/></div>
                             </div>
                         </div>
                         <div className="libraryContainer">
@@ -95,7 +105,7 @@ const Library=()=>{
                             })}
                         </div>
                         <div className="selectPages">
-                            <PageNumeration/>
+                            <PageNumeration currentPage={pagination.page} pageCount={pageCount} path={`${location.pathname}?platform=${currentPlatform}&`}/>
                         </div>
                     </div>
                 </div>

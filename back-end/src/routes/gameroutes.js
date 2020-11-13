@@ -8,9 +8,9 @@ require('dotenv').config();
 const cloudinary=require('cloudinary').v2;
 
 cloudinary.config({
-    cloud_name: "libergames",
-    api_key: '125288555964817',
-    api_secret: '-kkcbyY7evu4rycsOOH56WBaMTU'
+    cloud_name: process.env.CLOUDNAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.SECRET_KEY
 });
 
 router.get('/',async (req, res)=>{
@@ -65,7 +65,7 @@ router.put('/game/:id', async (req,res)=>{
     const data=req.body;
     await Game.findByIdAndUpdate(req.params.id,{...data},{useFindAndModify:false})
     .then(()=>{
-        res.json({status: "the game has been updates successfully"})
+        res.json({status: "the game has been updated successfully"})
     })
     .catch(err=>{
         console.log(err);
@@ -84,24 +84,21 @@ router.delete('/game/:id', async (req,res)=>{
     
 })
 
-router.get('/platforms/:platform', async (req,res)=>{
-    const games=await Game.find({platforms: {$in: req.params.platform}});
-    games==null?res.json({status:'Error game not found'}):res.json({games});
-})
-
-router.get('/filtered/', async (req,res)=>{
+router.get('/platforms', async (req,res)=>{
     const params=req.query;
-    let filters={};
-    let order=req.query.order? 1 : -1;
-    const allFilters=Object.keys(req.query)
+    let filters={platforms: {$in: [params.platform]}};
+    let order=(params.order && params.order=='DES')? -1 : 1;
+    const toPage= params.page || 1;
+    const allFilters=Object.keys(params);
+    const limit=parseInt(params.limit);
+    const queries=['limit','page','order','platform'];
     allFilters.map(key=>{
-        if(key=="title") filters[key]={$regex: `^${params[key]}`, $options: 'i'};
-        else if(key!="order") filters[key]={$in: [params[key]]};
-
-    })
-    console.log(filters) 
-    const games=await Game.find(filters).sort({'entryDate':order});
-    res.json({games});
+        if(key=="title") filters[key]={$regex: `^${params[key]}`, $options: 'i'}
+        else if(!queries.includes(key)) filters[key]={$in: [params[key]]}
+    });
+    const games=await Game.paginate(filters,{limit, sort: {entryDate: order}, page: toPage})
+    console.log(filters);
+    res.json({...games});
 })
 
 module.exports=router;
