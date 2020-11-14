@@ -8,9 +8,9 @@ require('dotenv').config();
 const cloudinary=require('cloudinary').v2;
 
 cloudinary.config({
-    cloud_name: process.env.CLOUDNAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.SECRET_KEY
+    cloud_name: `${process.env.CLOUDNAME}`,
+    api_key: `${process.env.API_KEY}`,
+    api_secret: `${process.env.SECRET_KEY}`
 });
 
 router.get('/',async (req, res)=>{
@@ -86,12 +86,12 @@ router.delete('/game/:id', async (req,res)=>{
 
 router.get('/platforms', async (req,res)=>{
     const params=req.query;
-    let filters={platforms: {$in: [params.platform]}};
+    let filters={};
     let order=(params.order && params.order=='DES')? -1 : 1;
     const toPage= params.page || 1;
     const allFilters=Object.keys(params);
     const limit=parseInt(params.limit);
-    const queries=['limit','page','order','platform'];
+    const queries=['limit','page','order'];
     allFilters.map(key=>{
         if(key=="title") filters[key]={$regex: `^${params[key]}`, $options: 'i'}
         else if(!queries.includes(key)) filters[key]={$in: [params[key]]}

@@ -3,5 +3,5 @@ module.exports={
             'Post-apocaliptico','RPG','Supervivencia','Artistico','Anime','Movil','Pay to Win','Gacha',
             'Rompecabezas','Party','Cocina','Construccion'],
     languages:['Ingles','Ruso','Japones','Chino','Español'],
-    platforms:['PC','PS4','PS3','PS2','Nintendo','XBOX360']
+    platforms:['PC','PS4','PS3','PS2','NDS','XBOX360']
 }

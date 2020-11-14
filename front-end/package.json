@@ -32,9 +32,12 @@
     "@babel/runtime": "^7.12.1",
     "axios": "^0.21.0",
     "express": "^4.17.1",
+    "glider-js": "^1.7.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.2.4",
-    "react-router-dom": "^5.2.0"
+    "react-elastic-carousel": "^0.9.4",
+    "react-router-dom": "^5.2.0",
+    "styled-components": "^5.2.1"
   }
 }

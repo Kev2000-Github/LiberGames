@@ -6,7 +6,7 @@ import noImage from '../../../assets/images/noImage.jpg';
 const Card=({gameInfo})=>{
     const picture=gameInfo.picture=="" ? noImage : gameInfo.picture;
     return(
-        <Link to={"/"} className="cardLink">
+        <Link to={`/Entries?${gameInfo._id}`} className="cardLink">
             <div className="card">
                 <img src={picture} className="Image"/>
                 <p className="cardTitle">{gameInfo.title}</p>

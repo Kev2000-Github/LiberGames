@@ -10,7 +10,8 @@ const Game=new Schema({
     sinopsis: {type: String,required: false},
     picture: {type: String,required: false},
     downloadLinks: {type: [String], required: true},
-    idioma: {type: [String], required: true}
+    idioma: {type: [String], required: true},
+    video: {type: String, required: false}
 });
 
 Game.plugin(mongoosePaginate);

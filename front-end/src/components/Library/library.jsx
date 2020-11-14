@@ -18,7 +18,7 @@ const Library=()=>{
     
     useEffect(()=>{
         const {search}=location;
-        const searchPlatform=new URLSearchParams(search).get('platform');
+        const searchPlatform=new URLSearchParams(search).get('platforms');
         if(searchPlatform) setCurrentPlatform(searchPlatform);
         getGames(location.search);
     },[location.search, order])

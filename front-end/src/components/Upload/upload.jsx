@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Header from '../utils/Header/header.jsx';
 import genreData from './genreData';
 import Selector from '../utils/Filter/filter.jsx';
@@ -13,7 +13,8 @@ const Upload=()=>{
                                             "sinopsis":"",
                                             "genres":[],
                                             "size":"",
-                                            "downloadLink":""
+                                            "downloadLink":"",
+                                            "videoLink":""
     });
     const [onError,setOnError]= useState({
         'title':"errorFalse",
@@ -22,9 +23,10 @@ const Upload=()=>{
         "Selector-Idioma":'errorFalse',
         'size':"errorFalse",
     })
-    const generos=genreData.genres;
-    const lenguajes=genreData.languages;
-    const platforms=genreData.platforms;
+        const generos=genreData.genres;
+        const lenguajes=genreData.languages;
+        const platforms=genreData.platforms;
+
     const {getRootProps,getInputProps,isDragActive}=useDropzone({
         accept: "image/*",
         onDrop: (acceptedFiles)=>{
@@ -100,15 +102,16 @@ const Upload=()=>{
             Form.append('entryDate',entryDate);
             Form.append('size',formData.size);
             Form.append('file',formData.image==undefined?null:formData.image.file);
+            Form.append('video',formData.videoLink);
             const config={
                 headers: {
                     'content-type': 'multipart/form-data'
                 }
             };
-            console.log(formData)
             axios.post('http://localhost:3000/json/upload',Form,config)
             .then(()=>{
                 console.log('The game has been sent!');
+                location.reload();
             }) 
         }
         else{
@@ -177,6 +180,9 @@ const Upload=()=>{
                         <div className="uploadItem input-downloadLinks">
                             <input type="text" onChange={handleInput} value={formData.downloadLink} name="downloadLink" placeholder="download link (utorrent)" id="downloadLink"/>
                             <p className={`data-error ${onError.downloadLink}`}>downloadLink empty</p>
+                            </div>
+                        <div className="uploadItem input-video">
+                            <input type="text" onChange={handleInput} value={formData.videoLink} name="videoLink" placeholder="youtube video URL" id="videoLink"/>
                             </div>
                         <div className="uploadItem"><button className="send" type="submit">Upload</button></div>
                     </form>
