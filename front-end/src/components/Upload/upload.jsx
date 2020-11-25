@@ -93,6 +93,9 @@ const Upload=()=>{
         if(validForm){
             const entryDate=new Date();
             const Form=new FormData();
+            const video=/\/embed\//.test(response.data.game.video)?
+            response.data.game.video:
+            response.data.game.video.replace('youtu.be/','www.youtube.com/embed/');
             Form.append('title',formData.title);
             Form.append('sinopsis',formData.sinopsis);
             Form.append('platforms',formData['Selector-Plataforma']);
@@ -102,7 +105,7 @@ const Upload=()=>{
             Form.append('entryDate',entryDate);
             Form.append('size',formData.size);
             Form.append('file',formData.image==undefined?null:formData.image.file);
-            Form.append('video',formData.videoLink);
+            Form.append('video',video);
             const config={
                 headers: {
                     'content-type': 'multipart/form-data'

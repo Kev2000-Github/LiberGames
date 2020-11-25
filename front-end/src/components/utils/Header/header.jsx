@@ -48,12 +48,7 @@ const Header=()=>{
                     </ul>
                 </div>
                 <div className="right-side dropdown-m">
-                    <p>Cuenta</p>
-                    <div className="context-menu">
-                        <button className="context-menu-btn">Registrar</button>
-                        <button className="context-menu-btn">Ingresar</button>
-                        <button className="context-menu-btn"><Link style={{textDecoration: 'none'}} to={'/upload'}>Subir</Link></button>
-                    </div>
+
                 </div>
             </nav>
         </header>

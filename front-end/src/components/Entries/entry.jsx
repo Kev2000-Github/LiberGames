@@ -10,10 +10,7 @@ const Entry=()=>{
         const baseURL=`http://localhost:3000/json`;
         const endpoint='/game/';
         const response= await axios.get(baseURL + endpoint + id);
-        const video=/\/embed\//.test(response.data.game.video)?
-        response.data.game.video:
-        response.data.game.video.replace('youtu.be/','www.youtube.com/embed/');
-        setGame({...response.data.game, video});
+        setGame({...response.data.game, entryDate: response.data.game.entryDate.slice(0,10)});
     },[])
 
     return(

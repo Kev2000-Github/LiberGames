@@ -74,9 +74,16 @@ const Library=()=>{
             }
         });
         query=query.substring(0,query.length-1);
+        console.log('query:',query)
         setFilterQuery(query);
-        getGames(location.search + query);
     }
+
+useEffect(()=>{
+    getGames(location.search);
+},[filterQuery])
+
+useEffect(()=>{
+},[games])
 
     return(
         <>
@@ -105,7 +112,7 @@ const Library=()=>{
                             })}
                         </div>
                         <div className="selectPages">
-                            <PageNumeration currentPage={pagination.page} pageCount={pageCount} path={`${location.pathname}?platform=${currentPlatform}&`}/>
+                            <PageNumeration currentPage={pagination.page} pageCount={pageCount} path={`${location.pathname}?platforms=${currentPlatform}&`}/>
                         </div>
                     </div>
                 </div>
